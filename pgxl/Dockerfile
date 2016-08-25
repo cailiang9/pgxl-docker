@@ -28,7 +28,7 @@ RUN ./configure --with-python #--prefix /opt/pgxl
 # ./configure --enable-cassert --enable-debug CFLAGS="-ggdb -Og -fno-omit-frame-pointer" --with-python --prefix /opt/pgxl
 RUN make -j 4 |tail && make install
 WORKDIR /root/postgres-xl-9.5r1.3/contrib
-RUN make -j 4 |tail && make install
+RUN mv test_decoding/specs test_decoding/.specs && make -j 4 |tail && make install
 
 #ENV PATH /opt/pgxl/bin:$PATH
 ENV PGDATA /pom/pgxc
