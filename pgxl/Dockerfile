@@ -34,7 +34,7 @@ RUN mv test_decoding/specs test_decoding/.specs && make -j 4 |tail && make insta
 ENV PGDATA /pom/pgxc
 
 ### PG EXTENSIONS
-RUN pgxnclient install json_enhancements
+#RUN pgxnclient install json_enhancements
 
 ### LD
 RUN echo "/usr/local/lib" >> /etc/ld.so.conf

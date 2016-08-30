@@ -1,7 +1,8 @@
+#!/usr/local/miniconda/bin/python3
 __author__ = 'matthieu'
 
 import argparse
-from cStringIO import StringIO
+from io import StringIO
 
 from docker import Client
 dcl = Client()
@@ -146,8 +147,8 @@ datanodePorts=({2})
 datanodePoolerPorts=({3})
 datanodePgHbaEntries=(all)
 """.format(datanodes[0], ' '.join(datanodes),
-           ' '.join(map(str, range(21000, 21000 + nnodes))),
-           ' '.join(map(str, range(22000, 22000 + nnodes)))))
+           ' '.join(map(str, list(range(21000, 21000 + nnodes)))),
+           ' '.join(map(str, list(range(22000, 22000 + nnodes))))))
     conf.write("""
 datanodeMasterServers=({0})
 datanodeMasterDirs=({1})
@@ -200,7 +201,7 @@ listen PGSQL 0.0.0.0:5432
     return conf
 
 if args.ip:
-    print get_containers(dcl)
+    print(get_containers(dcl))
 
 if args.conf:
     local_mode = False
@@ -208,13 +209,13 @@ if args.conf:
     if args.local > 0:
         ips = ["127.0.0.1"] * args.local
         local_mode = True
-	gtmproxy = False
+        gtmproxy = False
     elif args.static == None:
-	   from docker import Client
+       from docker import Client
 
-	   dcl = Client()
-	   ctn = get_containers(dcl)
-	   ips = [c["ip"] for c in ctn]
+       dcl = Client()
+       ctn = get_containers(dcl)
+       ips = [c["ip"] for c in ctn]
     else:
         ips = args.static.split(",")
     conf = get_conf(ips, local_mode, gtmproxy)
